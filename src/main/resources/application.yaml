@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: rias-aluralatam-literalura-oracle
+  datasource:
+    url: jdbc:mysql://localhost:3309/literalura?createDatabaseIfNotExist=true
+    username: root
+    password: literaluraLatam
+    hikari:
+      initialization-fail-timeout: 360
+      connection-timeout: 300
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect
