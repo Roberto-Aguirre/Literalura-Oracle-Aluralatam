@@ -18,8 +18,8 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @ToString
+@Entity
 public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,7 @@ public class Autor {
     @Column(name = "anno_fallecimiento")
     private Integer annoFallecimiento;
     @OneToMany(targetEntity = Libro.class, mappedBy = "autor")
+    @ToString.Exclude
     private List<Libro> libros;
 
 }

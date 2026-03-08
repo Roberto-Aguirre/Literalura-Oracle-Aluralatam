@@ -1,6 +1,6 @@
 package com.literalura.rias.controllers;
 
-import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 
@@ -9,31 +9,49 @@ import com.literalura.rias.entities.Libro;
 import com.literalura.rias.entities.DTOS.AuthorResponse;
 import com.literalura.rias.entities.DTOS.ResponseLibros;
 
-import jakarta.persistence.criteria.CriteriaBuilder.In;
-
 @Controller
 public class LibroMapper {
-    
-    public HashMap<Libro,Autor> mapResponse(ResponseLibros response){
-        AuthorResponse authorResponse = response.getResults().get(0).getAuthors().get(0);
-        String lenguaje = response.getResults().get(0).getLanguages().get(0);
-        Autor autor = Autor.builder()
-            .nombreAutor(authorResponse.getName())
-            .annoNacimiento(Integer.valueOf(authorResponse.getBirth_year()))
-            .annoFallecimiento(Integer.valueOf(authorResponse.getDeath_year()))
-            .build();
 
-        Libro libro = Libro.builder()
-            .titulo(response.getResults().get(0).getTitle())
-            .idioma(lenguaje)
-            .numeroDescargas(Long.valueOf(response.getResults().get(0).getDownload_count()))
-            .build();
+    public Libro mapResponseLibro(ResponseLibros response) {
+        if (response == null || response.getResults() == null || response.getResults().isEmpty()) {
+            throw new IllegalArgumentException("No se encontraron resultados para el libro solicitado");
+        }
 
-        System.out.println(libro);
-        System.out.println(autor);
-        HashMap<Libro,Autor> libroAutorMap = new HashMap<>();
+        List<String> languages = response.getResults().get(0).getLanguages();
+        String lenguaje = (languages != null && !languages.isEmpty()) ? languages.get(0) : "N/A";
 
-        return null;
-            
+        Libro libro = Libro.builder().id(null).titulo(response.getResults().get(0).getTitle()).idioma(lenguaje)
+                .numeroDescargas(Long.valueOf(response.getResults().get(0).getDownload_count())).autor(null).build();
+
+        return libro;
+
     }
+
+    public Autor mapResponseAutor(ResponseLibros response) {
+        if (response == null || response.getResults() == null || response.getResults().isEmpty()
+                || response.getResults().get(0).getAuthors() == null
+                || response.getResults().get(0).getAuthors().isEmpty()) {
+            throw new IllegalArgumentException("No se encontro autor en la respuesta del libro");
+        }
+
+        AuthorResponse authorResponse = response.getResults().get(0).getAuthors().get(0);
+
+        Autor autor = Autor.builder().id(null).nombreAutor(authorResponse.getName())
+                .annoNacimiento(parseNullableInteger(authorResponse.getBirth_year()))
+                .annoFallecimiento(parseNullableInteger(authorResponse.getDeath_year())).build();
+        return autor;
+    }
+
+    private Integer parseNullableInteger(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+
+        try {
+            return Integer.valueOf(value);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
 }

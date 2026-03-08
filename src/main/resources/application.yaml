@@ -1,16 +1,16 @@
 spring:
   application:
-    name: rias-aluralatam-literalura-oracle
+    name: literalura
   datasource:
-    url: jdbc:mysql://localhost:3309/literalura?createDatabaseIfNotExist=true
-    username: root
-    password: literaluraLatam
-    hikari:
-      initialization-fail-timeout: 360
-      connection-timeout: 300
+    url: "jdbc:mysql://127.0.0.1:3307/literalura?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC"
+    username: "root"
+    password: "literaluraLatam"
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: false
+    # show-sql: true
     properties:
-      hibernate.dialect: org.hibernate.dialect.MySQLDialect
+      hibernate:
+        # format_sql: true
+server:
+  port: 8085

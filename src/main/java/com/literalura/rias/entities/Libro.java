@@ -23,6 +23,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "libros")
 public class Libro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,8 +31,12 @@ public class Libro {
     private String idioma;
     @Column(name = "numero_descargas")
     private Long numeroDescargas;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")
+    @ToString.Exclude
     private Autor autor;
 
+        public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
 }
