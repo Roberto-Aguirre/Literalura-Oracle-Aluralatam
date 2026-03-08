@@ -61,6 +61,7 @@ public class RiasApplication {
                     break;
                 case 6:
                     System.out.println("Cerrando la aplicación... ¡Hasta pronto!");
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Opción no válida.");
