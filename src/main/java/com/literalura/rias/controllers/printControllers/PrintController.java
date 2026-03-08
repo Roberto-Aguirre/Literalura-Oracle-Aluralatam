@@ -21,21 +21,25 @@ public class PrintController {
         System.out.println("4. Lista autores vivos en un determinado año");
         System.out.println("5. Lista libro por idioma");
         System.out.println("6. salir");
+        System.out.print("> ");
         return Integer.parseInt(scanner.nextLine());
     }
 
     public String printBuscarLibro() {
         System.out.println("Ingresa el título del libro:");
+        System.out.print("> ");
         return scanner.nextLine();
     }
 
     public String printBuscarIdioma() {
         System.out.println("Ingresa el idioma del libro:");
+        System.out.print("> ");
         return scanner.nextLine();
     }
 
     public Integer printBuscarAnio() {
         System.out.println("Ingresa el año para buscar autores vivos:");
+        System.out.print("> ");
         return Integer.parseInt(scanner.nextLine());
     }
 
@@ -74,7 +78,4 @@ public class PrintController {
         });
     }
 
-    public String mapLibro(String libro) {
-        return libro.replace(" ", "+");
-    }
 }
